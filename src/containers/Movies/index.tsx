@@ -51,11 +51,6 @@ class Movies extends React.Component<IProps> {
 
     return (
       <div>
-        <Wrapper>
-          <nav style={{ background: '#f0f0f0' }}>
-            <h1 style={{ margin: 0 }}>The Movie Database - Latest Movies</h1>
-          </nav>
-        </Wrapper>
         <div style={{ position: 'relative' }}>
           <Wrapper style={{ position: 'absolute', top: 0, left: 0, width: 250 }}>
             <RatingSlider 

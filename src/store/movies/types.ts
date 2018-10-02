@@ -5,7 +5,7 @@ export interface IMovie {
   id: number,
   video?: boolean,
   vote_average?: number,
-  title?: string,
+  title: string,
   popularity: number,
   poster_path?: string,
   original_language?: string,
