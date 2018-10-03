@@ -97,7 +97,16 @@ export function selectGenres<
     .filter((id: number, i: number, arr: number[]) => arr.indexOf(id) === i)
 
     // Find the genre for the given id
-    .map((id: number) => genres[id]);
+    .map((id: number) => genres[id])
+    .sort((a, b) => {
+      if (a.name < b.name) {
+        return -1;
+      }
+      if (a.name > b.name) {
+        return 1;
+      }
+      return 0
+    });
 }
 
 export default moviesReducer;
