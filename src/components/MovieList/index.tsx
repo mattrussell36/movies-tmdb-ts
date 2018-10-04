@@ -1,12 +1,12 @@
 import * as React from 'react';
-import { IMovie } from '../../store/movies/types';
+import { IGenre, IMovie } from '../../store/movies/types';
 import Card from '../Card';
 
 import { Grid } from 'mauerwerk';
 import styled from 'styled-components';
 
 interface IProps {
-  movies: IMovie[]
+  movies: IMovie[];
 }
 
 const Pill = styled.li`
@@ -16,6 +16,8 @@ const Pill = styled.li`
   border-radius: 8px;
   background-color: white;
 `;
+
+const maxGenresToDisplay = 4;
 
 const MovieList: React.SFC<IProps> = ({ movies }) => {
   if (!movies.length) {
@@ -31,15 +33,22 @@ const MovieList: React.SFC<IProps> = ({ movies }) => {
       margin={20}
       transitionMount={true}
     >
-      {(movie: IMovie) => (
-        <Card title={movie.title} img={'https://image.tmdb.org/t/p/w500/' + movie.poster_path}>
-          <ul>
-            {movie.genres.map(genre => <Pill key={genre.id}>{genre.name}</Pill>)}
-          </ul>
-          <p><strong>Popularity:</strong> {movie.popularity}</p>
-          <p style={{ marginBottom: 0 }}><strong>Rating:</strong> {movie.vote_average}</p>
-        </Card>
-      )}
+      {(movie: IMovie) => {
+        // Only show the first four genres to help ensure equal card heights.
+        const firstFourGenres: IGenre[] = movie.genres.slice(0, maxGenresToDisplay);
+        return (
+          <Card title={movie.title} img={'https://image.tmdb.org/t/p/w500/' + movie.poster_path}>
+            <ul>
+              {firstFourGenres
+                .map(genre => <Pill key={genre.id}>{genre.name}</Pill>)}
+              {movie.genres.length > maxGenresToDisplay && 
+                <Pill>{'+ ' + (movie.genres.length - maxGenresToDisplay)}</Pill>}
+            </ul>
+            <p><strong>Popularity:</strong> {movie.popularity}</p>
+            <p style={{ marginBottom: 0 }}><strong>Rating:</strong> {movie.vote_average}</p>
+          </Card>
+        );
+      }}
     </Grid>
   )
 }
