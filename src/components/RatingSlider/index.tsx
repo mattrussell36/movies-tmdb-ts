@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { FormGroup, Slider } from '@blueprintjs/core';
 
 interface IProps {
   value: number,
@@ -7,21 +8,21 @@ interface IProps {
 
 const RatingSlider: React.SFC<IProps> = ({ handleChange, value }) => (
   <div style={{ marginBottom: 20 }}>
-    <label htmlFor="rating">Rating ({value})</label>
-    <div>
-      <input
+    <FormGroup 
+      helperText="Click and drag to select a rating" 
+      label="Rating"
+      labelFor="rating">
+      <Slider
+        initialValue={0}
+        labelPrecision={0}
+        labelStepSize={5}
+        stepSize={0.5}
         value={value}
-        onChange={(e: React.FormEvent<HTMLInputElement>) => 
-          handleChange(parseFloat(e.currentTarget.value))}
-        type="range" 
-        min="1" 
-        max="10" 
-        step="0.5"
-        name="rating"
-        id="rating"
-        style={{ display: 'block', width: '100%' }}
+        min={0}
+        max={10} 
+        onChange={handleChange}
       />
-    </div>
+    </FormGroup>
   </div>
 );
 

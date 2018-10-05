@@ -6,6 +6,9 @@ import ThemeSelector from './containers/ThemeSelector';
 import { IRootState } from './store';
 import { colors } from './styles/colors';
 
+// Blueprint
+import { Navbar, Alignment } from '@blueprintjs/core';
+
 interface IProps {
   theme: string;
 }
@@ -13,12 +16,6 @@ interface IProps {
 const Main = styled.main`
   background: ${props => props.theme.colors.siteBackground};
   color: ${props => props.theme.colors.textColor};
-`;
-
-const Nav = styled.nav`
-  display: flex;
-  padding: 20px;
-  background-color: ${props => props.theme.colors.cardBackground};
 `;
 
 class App extends React.Component<IProps> {
@@ -33,12 +30,15 @@ class App extends React.Component<IProps> {
     return (
       <ThemeProvider theme={themeConfig}>
         <Main>
-          <Nav>
-            <h1 style={{ margin: 0 }}>The Movie Database - Latest Movies</h1>
-            <div style={{ marginLeft: 'auto' }}>
+          <Navbar>
+            <Navbar.Group align={Alignment.LEFT}>
+              <Navbar.Heading>The Movie Database - Latest Movies</Navbar.Heading>
+              <Navbar.Divider />
+            </Navbar.Group>
+            <Navbar.Group align={Alignment.RIGHT}>
               <ThemeSelector />
-            </div>
-          </Nav>
+            </Navbar.Group>
+          </Navbar>
           <Movies />
         </Main>
       </ThemeProvider>

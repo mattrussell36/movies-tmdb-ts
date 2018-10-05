@@ -7,7 +7,7 @@ interface IProps {
   children: any;
 }
 
-const CardDiv = styled.div`
+const CardWrapper = styled.div`
   display: flex;
   align-items: flex-start;
   background-color: ${props => props.theme.colors.cardBackground}; 
@@ -21,17 +21,22 @@ const CardImg = styled.img`
 `;
 
 const CardContent = styled.div`
+  flex-grow: 1;
   padding: 20px;
 `;
 
+const CardTitle = styled.h3`
+  margin-top: 0;
+`;
+
 const Card: React.SFC<IProps> = ({ title, img, children}) => (
-  <CardDiv>
-    <CardImg src={img}  alt={title} />
+  <CardWrapper>
+    <CardImg src={img} alt={title} />
     <CardContent>
-      <h3 style={{ marginTop: 0 }}>{title}</h3>
+      <CardTitle>{title}</CardTitle>
       {children}
     </CardContent>
-  </CardDiv>
+  </CardWrapper>
 );
 
 export default Card;

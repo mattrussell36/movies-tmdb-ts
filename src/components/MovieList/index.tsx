@@ -1,15 +1,37 @@
 import * as React from 'react';
-import { IGenre, IMovie } from '../../store/movies/types';
+import { IMovie } from '../../store/movies/types';
 import Card from '../Card';
 
-import { Grid } from 'mauerwerk';
 import styled from 'styled-components';
+
+// import { OverflowList, Boundary, Popover } from '@blueprintjs/core';
 
 interface IProps {
   movies: IMovie[];
 }
 
-const Pill = styled.li`
+const Grid = styled.div`
+  @media (min-width: 900px) {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 20px;
+  }
+
+  @media (min-width: 1400px) {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+`;
+
+const GridItem = styled.div`
+  min-width: 0;
+  margin-bottom: 20px;
+
+  @media (min-width: 900px) {
+    margin-bottom: 0;
+  }
+`;
+
+const Pill = styled.div`
   display: inline-block;
   margin: 0 5px 5px 0;
   padding: 5px 10px;
@@ -17,7 +39,6 @@ const Pill = styled.li`
   background-color: white;
 `;
 
-const maxGenresToDisplay = 4;
 
 const MovieList: React.SFC<IProps> = ({ movies }) => {
   if (!movies.length) {
@@ -25,30 +46,34 @@ const MovieList: React.SFC<IProps> = ({ movies }) => {
   }
 
   return (
-    <Grid
-      data={movies}
-      keys={(d: IMovie) => d.id}
-      heights={(d: IMovie) => 195}
-      columns={2}
-      margin={20}
-      transitionMount={true}
-    >
-      {(movie: IMovie) => {
-        // Only show the first four genres to help ensure equal card heights.
-        const firstFourGenres: IGenre[] = movie.genres.slice(0, maxGenresToDisplay);
-        return (
+    <Grid>
+      {movies.map((movie: IMovie) => (
+        <GridItem key={movie.id}>
           <Card title={movie.title} img={'https://image.tmdb.org/t/p/w500/' + movie.poster_path}>
-            <ul>
-              {firstFourGenres
-                .map(genre => <Pill key={genre.id}>{genre.name}</Pill>)}
-              {movie.genres.length > maxGenresToDisplay && 
-                <Pill>{'+ ' + (movie.genres.length - maxGenresToDisplay)}</Pill>}
-            </ul>
+            {/* <OverflowList 
+              collapseFrom={Boundary.END}
+              items={movie.genres}
+              minVisibleItems={1}
+              overflowRenderer={(items) => {
+                return (
+                  <Popover>
+                    <PillButton>+ {items.length}</PillButton>
+                    <div style={{ padding: 20 }}>
+                      {items.map(g => g.name).join(', ')}
+                    </div>
+                  </Popover>
+                )
+              }}
+              visibleItemRenderer={(g) => <Pill key={g.id}>{g.name}</Pill>}
+            /> */}
+            <div>
+              {movie.genres.map(g => <Pill key={g.id}>{g.name}</Pill>)}
+            </div>
             <p><strong>Popularity:</strong> {movie.popularity}</p>
             <p style={{ marginBottom: 0 }}><strong>Rating:</strong> {movie.vote_average}</p>
           </Card>
-        );
-      }}
+        </GridItem>
+      ))}
     </Grid>
   )
 }
