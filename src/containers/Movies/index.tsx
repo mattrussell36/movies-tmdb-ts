@@ -18,6 +18,8 @@ import {
   IMovieActions
 } from '../../store/movies/types';
 
+import { Button, NonIdealState, Spinner, INonIdealStateProps } from '@blueprintjs/core';
+
 interface IProps {
   fetchMovies: () => void,
   isError: boolean,
@@ -45,8 +47,28 @@ class Movies extends React.Component<IProps> {
       updateSelectedRating,
     } = this.props;
 
-    if (isError) {
-      return <div>Could not fetch movies!</div>
+    if (isError || isPending) {
+      let nonIdealProps: INonIdealStateProps = {
+        action: <div />,
+        description: '',
+        icon: <Spinner />,
+        title: 'Loading...',
+      }
+
+      if (isError) {
+        nonIdealProps = {
+          action: <Button icon="refresh" onClick={this.props.fetchMovies}>Try again</Button>,
+          description: 'Please try again later',
+          icon: 'error',
+          title: 'Oops. Something wen\'t wrong',
+        }
+      }
+
+      return (
+        <Wrapper>
+          <NonIdealState {...nonIdealProps} />
+        </Wrapper>
+      )
     }
 
     return (
@@ -63,9 +85,7 @@ class Movies extends React.Component<IProps> {
             />
           </Wrapper>
           <Wrapper style={{ marginLeft: 250 }}>
-            {isPending
-              ? <h4>Loading...</h4> 
-              : <MovieList movies={list} />}
+            <MovieList movies={list} />
           </Wrapper>
         </div>
       </div>

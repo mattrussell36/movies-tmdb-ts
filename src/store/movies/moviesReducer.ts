@@ -37,6 +37,13 @@ const moviesReducer: Reducer<IMovieState, IMovieActions> = (
       };
       break;
     
+    case MovieActionTypes.FetchMoviesError:
+      return {
+        ...state,
+        isError: true,
+        isPending: false,
+      }
+    
     case MovieActionTypes.UpdateSelectedGenres:
       const { id } = action;
       const genres = { ...state.genres };
