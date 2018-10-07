@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { IGenre } from '../../store/movies/types';
 
+import { Checkbox } from '@blueprintjs/core';
+
 interface IProps {
   genres: IGenre[],
   updateSelectedGenres: (id: number) => void,
@@ -8,23 +10,13 @@ interface IProps {
 
 const GenreList: React.SFC<IProps> = ({ genres, updateSelectedGenres }) => (
   <div style={{ marginBottom: 20 }}>
-    <ul>
-      {genres.map((genre: any) => (
-          <li key={genre.id} style={{ marginBottom: 10 }}>
-            <label htmlFor={genre.name}>
-              <input 
-                type="checkbox" 
-                id={genre.name} 
-                name={genre.name} 
-                checked={genre.checked}
-                onChange={() => updateSelectedGenres(genre.id)}
-                style={{ marginRight: 10 }}
-              />
-              {genre.name} ({genre.id})
-            </label>
-          </li>
-      ))}
-    </ul>
+    {genres.map((genre: any) => (
+      <Checkbox 
+        label={genre.name}
+        checked={genre.checked}
+        onChange={() => updateSelectedGenres(genre.id)}
+      />
+    ))}
   </div>
 );
 
