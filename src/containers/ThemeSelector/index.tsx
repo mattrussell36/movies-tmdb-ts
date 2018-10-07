@@ -5,6 +5,8 @@ import { IRootState } from '../../store';
 import { setTheme } from '../../store/theme/themeActions';
 import { IThemeActions } from '../../store/theme/types';
 
+import { HTMLSelect } from '@blueprintjs/core';
+
 interface IProps {
   setTheme: any,
   themes: any;
@@ -16,19 +18,11 @@ class ThemeSelector extends React.Component<IProps> {
 
     return (
       <div>
-        <select 
+        <HTMLSelect
           onChange={(e: React.FormEvent<HTMLSelectElement>) =>
             setTheme(e.currentTarget.value)} 
-          name="themes" 
-          id="themes"
-        >
-            {themes.map((theme: string) => (
-              <option 
-                key={theme} 
-                value={theme}
-              >{theme}</option>
-            ))}
-          </select>
+          options={themes}
+        />
       </div>
     )
   }
